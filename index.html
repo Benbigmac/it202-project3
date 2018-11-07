@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    </head>
+<body>
+<button id="add-to-favorites"
+   class="mdc-icon-button"
+   aria-label="Add to favorites"
+   aria-hidden="true"
+   aria-pressed="false">
+   <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">favorite</i>
+   <i class="material-icons mdc-icon-button__icon">favorite_border</i>
+</button>
+
+    
+    
+    <button class="foo-button mdc-button">Button</button>
+
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script>
+    mdc.ripple.MDCRipple.attachTo(document.querySelector('.foo-button'));
+var toggleButton = new mdc.iconButton.MDCIconButtonToggle(document.getElementById('add-to-favorites'));
+   // window.mdc.autoInit();
+   const iconEl = document.querySelector('.mdc-icon-toggle');
+const status = document.getElementById('status');
+iconEl.addEventListener('MDCIconToggle:change', ({detail}) => {
+  status.textContent = `Icon Toggle is ${detail.isOn ? 'on' : 'off'}`;
+});
+    </script>
+</body>
+</html>
