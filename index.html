@@ -2,152 +2,150 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhHqFhFG5rJCkjM9s5qOYSMtLzDaMFL9U&callback=initMap"
-  type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhHqFhFG5rJCkjM9s5qOYSMtLzDaMFL9U&callback=initMap" type="text/javascript"></script>
+
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <!-- Include Dexie -->
+  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
 </head>
 
 <body>
 
- <!-- notice the data-mdc-auto-init attribute;  this value is used by the autoinit script -->
-      <aside class="mdc-drawer mdc-drawer--modal" data-mdc-auto-init="MDCDrawer">
-      <div class="mdc-drawer__content">
-        <nav class="mdc-list">
-          
-            <div class='newstuff'></div>
-        </nav>
-      </div>
-    </aside>
+  <!-- notice the data-mdc-auto-init attribute;  this value is used by the autoinit script -->
+  <aside class="mdc-drawer mdc-drawer--modal" data-mdc-auto-init="MDCDrawer">
+    <div class="mdc-drawer__content">
+      <nav class="mdc-list">
 
-    <!-- necessary for modal drawer -->
-    <div class="mdc-drawer-scrim"></div>
-    
-    
-    <!--  -->
-    <header class="mdc-top-app-bar">
-      <div class="mdc-top-app-bar__row">
-        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-          <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
-          <span class="mdc-top-app-bar__title">Chicago Libraries</span>
-        </section>
-      </div>
-    </header>
-    <div class="mdc-top-app-bar--fixed-adjust"><div>
+        <div class='newstuff'></div>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- necessary for modal drawer -->
+  <div class="mdc-drawer-scrim"></div>
 
 
- <div id="map"></div>
+  <!--  -->
+  <header class="mdc-top-app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+        <span class="mdc-top-app-bar__title">Chicago Libraries</span>
+      </section>
+    </div>
+  </header>
+  <div class="mdc-top-app-bar--fixed-adjust">
+    <div>
 
 
-  
-
-<!--https://data.cityofchicago.org/resource/psqp-6rmg.json -->
+      <div id='map'></div>
 
 
- 
 
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-<!-- Include Dexie -->
-      <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
-    <script>
+
+      <!--https://data.cityofchicago.org/resource/psqp-6rmg.json -->
+
+
+
+
+
+      <script>
         //Query for list
-        //
-        //
-        //
-        $(document).ready(function () {
-         var db = new Dexie("fav_Library");
-          db.version(1).stores({
-              library: 'name,x,y'
+         //
+
+        function initMap() {
+          var myLatLng = {
+            lat: -25.363,
+            lng: 131.044
+          };
+          var chicago = {
+            lat: 41.8781,
+            lng: -87.6298
+          };
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: chicago
           });
-      // initializes all elements with the data-mdc-auto-init attribute
-      window.mdc.autoInit();
-
-      // creating a var reference just to save code later
-      var drawer = $("aside")[0].MDCDrawer;
-
-
-      // when menu icon is click, toggle drawer open property
-      $(".mdc-top-app-bar__navigation-icon").on("click", function(){
-        drawer.open = !drawer.open;
-      });
-
-      // could/should/would add an event handler for the drawer items;  click should close the drawer
-        var libList=[];
-         $.ajax({
-              url: "https://data.cityofchicago.org/resource/psqp-6rmg.json",
-              type: "GET",
-              data: {
-             //   "$limit" : 50
-              }
+          var marker = new google.maps.Marker({
+            map: map,
+            position: myLatLng,
+            title: 'HERE!!'
+          });
+        }
+        var libList = [];
+        var count=0;
+        $(document).ready(function() {
+          initMap();
+          var db = new Dexie("fav_Library");
+          db.version(1).stores({
+            library: 'name,x,y'
+          });
+          // initializes all elements with the data-mdc-auto-init attribute
+          window.mdc.autoInit();
+          // creating a var reference just to save code later
+          var drawer = $("aside")[0].MDCDrawer;
+          // when menu icon is click, toggle drawer open property
+          $(".mdc-top-app-bar__navigation-icon").on("click", function() {
+            drawer.open = !drawer.open;
+          });
+          // could/should/would add an event handler for the drawer items;  click should close the drawer
+          
+          $.ajax({
+            url: "https://data.cityofchicago.org/resource/psqp-6rmg.json",
+            type: "GET",
+            data: {
+              //   "$limit" : 50
+            }
           }).done(function(data) {
             //alert("Retrieved " + data.length + " records from the dataset!");
             console.log(data);
-             //var area=$(".newstuff").clone();
-             $.each(data,function(v,i){
-                 
-              var x=   i.location['coordinates'][0];
-               var y=  i.location['coordinates'][1];
-                 console.log(x+" "+y);
-               var name=i.name_;
-                 console.log(i.name_);
-                 $(".newstuff").append('<a class="mdc-list-item"  id="maps"> <span>     <span class="mdc-list-item__text" >'+
-                                       name+'</span>'
-                                       +'<button data-mdc-auto-init="MDCIconButtonToggle" id="add-to-favorites"'
-                                       +'class="mdc-icon-button"'
-                                      +' aria-label="Add to favorites"'
-                                       +'aria-hidden="true"'
-                                       +'aria-pressed="false">'
-                                       +'<i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">star</i>'
-                                       +'<i class="material-icons mdc-icon-button__icon">star_border</i>'
-                                    +'</button>'
-                                       +'</a>'
-                                      );
-                var locdata= {namen:name,xcoor:x,ycoor:y};
-                 libList.push(locdata);
-                 
-             })
-         //first get list of libraries and locations
-        //then populate list
-        
-         
-         });
+            //var area=$(".newstuff").clone();
+            $.each(data, function(v, i) {
+              var x = i.location['coordinates'][0];
+              var y = i.location['coordinates'][1];
+           //   console.log(x + " " + y);
+              var name = i.name_;
+           //   console.log(i.name_);
+              $(".newstuff").append('<a class="mdc-list-item"  id="'+v+'"><span><span class="mdc-list-item__text" >' + name + '</span>' + '<button data-mdc-auto-init="MDCIconButtonToggle" id="'+v+'"' + 'class="mdc-icon-button heart"' + ' aria-label="Add to favorites"' + 'aria-hidden="true"' + 'aria-pressed="false">' + '<i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">star</i>' + '<i class="material-icons mdc-icon-button__icon">star_border</i>' + '</button>' + '</a>');
+              var locdata = {
+                namen: name,
+                xcoor: x,
+                ycoor: y
+              };
+             // alert(libList);
+              libList.push(locdata);
+              count++;
+                 $('#heart').onclick = function() {
+            alert(this.id);
+                   //testing this but for some reason it's not setting up a db?
+            db.library.put({name: "Nicolas", x: 8,y:0}).then (function(){
+              // library: 'name,x,y'
+              // Then when data is stored, read from it
+              //
+              return db.library.get('Nicolas');
+          }).then(function (friend) {
 
-          
-       $(":button").click(function(){
-         
-         alert("i clicker");
-       })   ;
-          
-          var myLatLng = {lat: -25.363, lng: 131.044};
-    $(document).ready(function () {
-
-        var chicago = {lat: 41.8781, lng: -87.6298};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 11,
-          center: chicago
-        });
-       var marker = new google.maps.Marker({
-          map: map,
-          position: myLatLng,
-          title: 'HERE!!'
-        });
+              alert ("");
+          }).catch(function(error) {
  
-    });
-          
-          
-          
-    });
-        
-        
-        
+             alert ("Ooops: " + error);
+          });
 
-        
-
-        
+            
+            
+          }
+             
+            })
+            //first get list of libraries and locations
+            //then populate list
+          });
        
-      
-    </script>
+        });
+      </script>
 </body>
 
 </html>
