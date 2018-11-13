@@ -1,5 +1,12 @@
 # it202-project3
 
+## Issues with code
+-could not get map to load gave `Uncaught (in promise) 
+Ic
+message: "initMap is not a function"
+name: "InvalidValueError"`
+
+## Objectives
 * Your page will retrieve a list of libraries from the City of Chicago data portal https://data.cityofchicago.org/Education/Libraries-Locations-Hours-and-Contact-Information/x8fc-8rcq 
 * Each library name and address will be displayed as an item in a list with "Trailing Icon" (see https://material-components.github.io/material-components-web-catalog/#/component/list )
 * The icon should be a star and it should function as a "favorites" indicator.   When the user clicks an unfilled star, that library should be added to the list of favorites stored in IndexedDB, and the star should be filled.   When the user clicks a filled star, that library should be removed from the favorites, and the star should be unfilled.
