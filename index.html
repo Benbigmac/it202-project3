@@ -76,14 +76,17 @@
             title: 'HERE!!'
           });
         }
-        var libList = [];
-        var count=0;
-        $(document).ready(function() {
-          initMap();
-          var db = new Dexie("fav_Library");
+        var db = new Dexie("fav_Library");
           db.version(1).stores({
             library: 'name,x,y'
           });
+        export default db;
+        var libList = [];
+        var count=0;
+        $(document).ready(function() {
+          //initMap();
+          
+        
           // initializes all elements with the data-mdc-auto-init attribute
           window.mdc.autoInit();
           // creating a var reference just to save code later
@@ -122,6 +125,7 @@
                  $('#heart').onclick = function() {
             alert(this.id);
                    //testing this but for some reason it's not setting up a db?
+              db.open().then(function(){
             db.library.put({name: "Nicolas", x: 8,y:0}).then (function(){
               // library: 'name,x,y'
               // Then when data is stored, read from it
@@ -133,7 +137,7 @@
           }).catch(function(error) {
  
              alert ("Ooops: " + error);
-          });
+          });});
 
             
             
