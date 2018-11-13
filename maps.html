@@ -1,0 +1,23 @@
+
+
+ <div id="map"></div>
+
+ 
+<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhHqFhFG5rJCkjM9s5qOYSMtLzDaMFL9U&callback=initMap"
+  type="text/javascript"></script>
+<script>
+    //alert('eaad');
+
+    $(document).ready(function () {
+
+        var chicago = {lat: 41.8781, lng: -87.6298};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: chicago
+        });
+ 
+    });
+
+
+
+</script>
