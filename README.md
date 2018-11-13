@@ -1,10 +1,13 @@
 # it202-project3
 
 ## Issues with code
--could not get map to load gave `Uncaught (in promise) 
+- could not get map to load gave:
+`Uncaught (in promise) 
 Ic
 message: "initMap is not a function"
 name: "InvalidValueError"`
+- could not confirm dexie db to work due to buttons in list not responding to action listener I attempted to attach
+- could not get stars to switch between filled and unfilled even after swapping my code out entirely for example done in class and then changing it to try and fix
 
 ## Objectives
 * Your page will retrieve a list of libraries from the City of Chicago data portal https://data.cityofchicago.org/Education/Libraries-Locations-Hours-and-Contact-Information/x8fc-8rcq 
